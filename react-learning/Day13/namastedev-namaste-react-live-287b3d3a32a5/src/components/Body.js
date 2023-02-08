@@ -1,4 +1,4 @@
-import { restaurantList } from "../contants";
+import { restaurantList } from "../constants";
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
@@ -18,14 +18,12 @@ const Body = () => {
   }, []);
 
   async function getRestaurants() {
-    var opts = {
-      headers: {
-        'mode':'cors'
-      }
-    }
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING",
-      opts);
+      "https://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING",
+    {"headers": {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'developer'
+    }});
     const json = await data.json();
     setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
